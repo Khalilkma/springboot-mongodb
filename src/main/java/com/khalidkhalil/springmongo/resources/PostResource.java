@@ -3,6 +3,7 @@ package com.khalidkhalil.springmongo.resources;
 import com.khalidkhalil.springmongo.domain.Post;
 import com.khalidkhalil.springmongo.domain.User;
 import com.khalidkhalil.springmongo.dto.UserDTO;
+import com.khalidkhalil.springmongo.resources.Util.URL;
 import com.khalidkhalil.springmongo.services.PostService;
 import com.khalidkhalil.springmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,12 @@ public class PostResource {
     public ResponseEntity<Post> findById(@PathVariable String id) {
         Post obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @RequestMapping(value = "/titlesearch", method=RequestMethod.GET)
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text", defaultValue = "") String text) {
+        text = URL.decodeParam(text);
+        List<Post> list = service.findByTittle(text);
+        return ResponseEntity.ok().body(list);
     }
 }
